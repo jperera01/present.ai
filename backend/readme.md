@@ -22,7 +22,7 @@ python run.py
 ```
 4. Start tailwind process
 ```bash
-pnpm run-tailwind
+pnpm runtailwind
 ```
 
 ## File structure
