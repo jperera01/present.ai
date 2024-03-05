@@ -6,12 +6,15 @@
     <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
 </head>
 <body>
-      <p id="videoerror" class="text-red-500 hidden">video stream not available</p>
-    <div>
-      <video id="video">video stream not available</video>
-      <canvas id="canvas" class="hidden"></canvas>
+    <div class="bg-black flex justify-center">
+      <div>
+        <video id="video" class="h-lvh">video stream not available</video>
+        <canvas id="canvas" class="hidden"></canvas>
+      </div>
+      <div id="videoerrorcontainer" class="hidden">
+        <p class="text-red-500">Video must be enabled</p>
+      </div>
     </div>
-    <p id="countdown">3</p>
 
     <script src="{{url_for('static', filename='js/stream.js')}}"></script>
 </body>

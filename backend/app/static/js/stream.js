@@ -1,78 +1,99 @@
-(async () => {
-  let width = 620;
-  let height = 0;
+// (async () => {
+let width = 0;
+let height = 0;
 
-  let streaming = false
+let streaming = false
 
-  let video = null;
-  let canvas = null;
-  let context = null
-  let videoerror = null;
-  let countdown = null;
-  let ws = null
+let video = null;
+let canvas = null;
+let context = null
+let videoerrorcontainer = null
+let ws = null
+let recorder = null
 
-  async function startup() {
-    ws = new WebSocket("ws://localhost:5000/handle-stream")
+async function getUserUser() {
+  const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
-    video = document.getElementById("video");
-    canvas = document.getElementById("canvas")
-    videoerror = document.getElementById("videoerror")
-    countdown = document.getElementById("countdown")
+  recorder = new MediaRecorder(stream)
+  recorder.ondataavailable = async function(e) {
+    const data = await e.data.text()
+    ws.send(JSON.stringify({
+      type: "audio",
+      data
+    }))
+  }
 
-    context = canvas.getContext('2d');
-    let timeLeft = 3;
+  recorder.onerror = function(e) {
+    console.log(e)
+  }
 
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-      video.srcObject = stream;
-      video.play();
+  recorder.start(1000)
+  video.srcObject = stream;
+  video.play();
+  console.log(recorder)
+}
 
-      // setInterval(() => {
+function startStream() {
+  setInterval(() => {
 
-      var timerId = setInterval(function() {
-        if (streaming) {
-          timeLeft--;
-          countdown.textContent = timeLeft;
-          context.drawImage(video, 0, 0, width, height);
-          const frame = canvas.toDataURL('image/jpeg')
+    if (streaming) {
+      context.drawImage(video, 0, 0, width, height);
+      const frame = canvas.toDataURL('image/jpeg')
 
-          if (timeLeft <= 0) {
-            sendFrameToBackend(frame)
-            clearInterval(timerId);
-          }
-        }
-      }, 1000);
-      // }, 100)
-
-
-    } catch (err) {
-      videoerror.style.display = "block"
-      console.log(`An error occurred: ${err}`)
+      sendFrameToBackend(JSON.stringify({ type: "video", data: frame }))
     }
 
-    video.addEventListener(
-      "canplay",
-      (ev) => {
-        if (!streaming) {
-          height = (video.videoHeight / video.videoWidth) * width;
+  }, 100)
+}
 
-          video.setAttribute("width", width);
-          video.setAttribute("height", height);
+async function startStreamHandleException() {
+  try {
+    await getUserUser()
 
-          canvas.width = width;
-          canvas.height = height;
 
-          streaming = true;
-        }
-      },
-      false
-    )
+    videoerrorcontainer.style.display = "hidden"
+
+    startStream()
+  } catch (err) {
+    videoerrorcontainer.style.display = "block"
+    // console.log(`An error occurred: ${err}`)
   }
+}
 
-  async function sendFrameToBackend(frame) {
-    ws.send(frame);
-  }
+async function startup() {
+  ws = new WebSocket("ws://localhost:5000/handle-stream")
+
+  video = document.getElementById("video");
+  canvas = document.getElementById("canvas")
+  videoerrorcontainer = document.getElementById("videoerrorcontainer")
+
+  context = canvas.getContext('2d');
+
+  await startStreamHandleException();
+
+  video.addEventListener(
+    "canplay",
+    (ev) => {
+      if (!streaming) {
+        // height = (video.videoHeight / video.videoWidth) * width;
+
+        // video.setAttribute("width", width);
+        // video.setAttribute("height", height);
+
+        // canvas.width = width;
+        // canvas.height = height;
+
+        streaming = true;
+      }
+    },
+    false
+  )
+}
+
+async function sendFrameToBackend(frame) {
+  ws.send(frame);
+}
 
 
-  window.addEventListener("load", startup, false)
-})();
+window.addEventListener("load", startup, false)
+// })();
