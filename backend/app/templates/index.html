@@ -1,22 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Present.ai</title>
-    <link href="{{url_for('static',filename='css/main.css')}}" rel="stylesheet">
-</head>
-<body>
-    <div class="bg-black flex justify-center">
-      <div>
-        <video id="video" class="h-lvh">video stream not available</video>
-        <canvas id="canvas" class="hidden"></canvas>
-      </div>
-      <div id="videoerrorcontainer" class="hidden">
-        <p class="text-red-500">Video must be enabled</p>
-      </div>
-    </div>
+{% extends "base.html" %}
 
-    <script src="{{url_for('static', filename='js/stream.js')}}"></script>
-</body>
-</html>
+{% block content %}
+<main class="m-8">
+  <h1>Present.ai</h1>
+  <div class="flex gap-4">
+    <a href="/present">
+      <button class="px-2 py-1 bg-blue-300 rounded-lg">login</button>
+    </a>
 
+    <a href="/present">
+      <button class="px-2 py-1 bg-blue-300 rounded-lg">signup</button>
+    </a>
+  </div>
+</main>
+{% endblock %}

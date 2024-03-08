@@ -50,13 +50,13 @@ async function startStreamHandleException() {
   try {
     await getUserUser()
 
-
-    videoerrorcontainer.style.display = "hidden"
+    videoerrorcontainer.style.display = "hidden";
 
     startStream()
   } catch (err) {
-    videoerrorcontainer.style.display = "block"
-    // console.log(`An error occurred: ${err}`)
+
+    videoerrorcontainer.style.display = "block";
+
   }
 }
 

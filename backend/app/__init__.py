@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from flask_sock import Sock
 import base64
 import json
+from app.main import main_bp
+from app.present import present_bp
 
 # sam = True
 
@@ -36,8 +38,7 @@ def create_app(config):
 
     app.config.from_object(config)
 
-    @app.route("/")
-    def index():
-        return render_template("index.html")
+    app.register_blueprint(main_bp)
+    app.register_blueprint(present_bp)
 
     return app

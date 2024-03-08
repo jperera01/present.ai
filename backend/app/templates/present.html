@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block script %}
+<script src="{{url_for('static', filename='js/stream.js')}}" defer></script>
+{% endblock %}
+
+{% block content %}
+<main>
+  <a href="/">
+    <button class="absolute bg-red-500 text-white font-bold px-3 py-1 rounded top-5 left-5">exit</button>
+  </a>
+  <div class="bg-black flex justify-center">
+    <div>
+      <video id="video" class="h-lvh">
+      </video>
+      <canvas id="canvas" class="hidden"></canvas>
+    </div>
+
+    <div id="videoerrorcontainer" class="hidden">
+        <p class="text-red-500">Video must be enabled</p>
+    </div>
+  </div>
+</main>
+{% endblock %}
