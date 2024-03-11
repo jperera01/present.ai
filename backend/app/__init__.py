@@ -9,7 +9,7 @@ from app.present import present_bp
 
 
 def create_app(config):
-    app = Flask(__name__)
+    app = Flask(__name__) #added static_folder to allow images 
     sock = Sock(app)
 
     @sock.route('/handle-stream')
@@ -26,6 +26,7 @@ def create_app(config):
                 ...
             elif message['type'] == "video":
                 ...
+        
 
             # handle new receive
             # if sam:

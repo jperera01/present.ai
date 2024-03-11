@@ -1,16 +1,101 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present.ai - Your AI Presentation Coach</title>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</head>
+<body>
 
-{% block content %}
-<main class="m-8">
-  <h1>Present.ai</h1>
-  <div class="flex gap-4">
-    <a href="/present">
-      <button class="px-2 py-1 bg-blue-300 rounded-lg">login</button>
-    </a>
+<header class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold">Present.ai</h1>
+        <nav>
+            <ul class="flex space-x-6">
+                <li><a href="#" class="hover:text-blue-500">Features</a></li>
+                <li><a href="#" class="hover:text-blue-500">Pricing</a></li>
+                <li><a href="#" class="hover:text-blue-500">Blog</a></li>
+                <li>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Try for Free
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
-    <a href="/present">
-      <button class="px-2 py-1 bg-blue-300 rounded-lg">signup</button>
-    </a>
+
+<section class="hero bg-white text-gray-800 py-10">  
+    <div class="container mx-auto flex flex-col items-center md:flex-row">
+        <div class="text-center md:text-left md:w-1/2"> 
+            <h1 class="text-4xl font-bold mb-4">Your AI Coach for Public Speaking and Presentation Skills</h1>
+            <p class="mb-6">Hone your message, pacing, and visuals for a captivating experience. Revolutionize your presentations, revolutionize your results - <b>sign up today!</b></p>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
+                Sign Up 
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded">
+                Login  
+            </button>
+        </div>
+        <div class="md:w-1/2 mt-8 md:mt-0">
+            <img src="/static/images/presenting.jpg" alt="Present.AI Interface" class="rounded-lg shadow-md"> 
+            <p class="text-xs text-gray-500 mt-2 italic text-center"> *Image is a placeholder. Final version will display a screenshot of the Present.AI UI</p>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="features bg-gray-100 py-5"></section>
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12">Why Use Present.ai?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <img src="/static/images/advancement.png" alt="Promotion Icon" class="w-12 h-12 mx-auto"> 
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-2">Career Advancement</h3>
+                <p class="text-center">Studies show that strong presenters are far more likely to be perceived as leadership material and receive promotions.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <img src="/static/images/influence.png" alt="Influence Icon" class="w-12 h-12 mx-auto"> 
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-2">Increase your Influence</h3>
+                <p class="text-center">Communication skills was rated by executives second, only behind leadership as the <b>most important skill</b> for employees to learn. </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <img src="/static/images/confidence.png" alt="Confidence Icon" class="w-12 h-12 mx-auto"> 
+                </div>
+                <h3 class="text-xl font-semibold text-center mb-2">Boost Confidence</h3>
+                <p class="text-center">Practice your presentation, leading to less anxiety and greater poise in those high-stakes situations. Chase that well earned raise!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="mt-12 bg-gradient-to-r from-purple-500 to-purple-900 text-white p-9 rounded-lg shadow-md relative"> 
+  <h3 class="text-xl font-semibold text-center mb-2">Did You Know?</h3>
+  <div class="fact-container overflow-x-auto">
+    <ul class="text-center whitespace-nowrap" id="did-you-know-facts">
+      </ul>
   </div>
-</main>
-{% endblock %}
+  <button class="prev-fact absolute top-1/2 left-40 -translate-y-1/2 bg-white rounded-full p-2"><span style="color: black;">&lt;</span></button> 
+  <button class="next-fact absolute top-1/2 right-40 -translate-y-1/2 bg-white rounded-full p-2"><span style="color: black;">&gt;</span></button>
+  <center><a href="https://secondnatureuk.co.uk/blog/importance-of-communication-skills-in-business/" aria-label="Source: Second Nature UK website"><b><u>Source</u></b></a></center> 
+<script src="../static/js/facts.js"></script> 
+</div>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto">
+          &copy; 2024 Present.ai. All rights reserved.
+        </div>    
+    </footer>
+
+<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script> 
+</body>
+</html>
