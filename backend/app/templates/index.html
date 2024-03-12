@@ -7,7 +7,6 @@
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous" defer></script> 
-    <!-- <script src="{{ url_for('static', filename='js/facts.js') }}" defer></script> -->
   </head>
 
   <body>
@@ -86,7 +85,6 @@
         </div>
     </section>
 
-    <!--
     <div x-data="{
       facts: [
         '95% of respondents said that presenting well has a wider impact on a person’s career.',
@@ -95,25 +93,27 @@
         '50% of those surveyed believed impactful presenting skills could boost their organisation’s profile.'
       ],
       current_fact: 0,
-      nextFact: () => {
+      nextFact() {
         this.current_fact = (((this.current_fact + 1) % this.facts.length) + this.facts.length) % this.facts.length
       },
-      prevFact: () => {
+      prevFact() {
         this.current_fact = (((this.current_fact - 1) % this.facts.length) + this.facts.length) % this.facts.length
       }
     }"
+         x-init="setInterval(() => {
+            current_fact = (((current_fact + 1) % facts.length) + facts.length) % facts.length
+         }, 3000)"
       class="bg-gradient-to-r from-purple-500 to-purple-900 text-white p-9 rounded-t-lg shadow-md relative">
-      <div class="flex">
+      <div class="flex justify-center items-center gap-20">
         <input type="image" src="{{ url_for('static', filename='images/left.svg') }}" class="w-[50px] bg-white rounded-full" @click="nextFact()">
-        <div>
+        <div class="w-1/3">
           <h3 class="text-xl font-semibold text-center mb-2">Did You Know?</h3>
           <p x-text="facts[current_fact]"></p>
         </div>
         <input type="image" src="{{ url_for('static', filename='images/right.svg') }}" class="w-[50px] bg-white rounded-full" @click="prevFact()">
       </div>
-      <!-- <center><a href="https://secondnatureuk.co.uk/blog/importance-of-communication-skills-in-business/" aria-label="Source: Second Nature UK website"><b><u>Source</u></b></a></center> 
+      <!-- <center><a href="https://secondnatureuk.co.uk/blog/importance-of-communication-skills-in-business/" aria-label="Source: Second Nature UK website"><b><u>Source</u></b></a></center> -->
     </div>
-    -->
 
     <footer class="bg-gray-800 text-white py-4">
       <div class="container mx-auto">
