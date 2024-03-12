@@ -1,125 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Present.ai - Your AI Presentation Coach</title>
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous" defer></script> 
-  </head>
+{% extends "base.html" %}
 
-  <body>
-    <header class="bg-gray-800 text-white py-3">
-      <div class="container mx-auto flex justify-between items-center">
-        <a href="/">
-          <h1 class="text-2xl font-bold">Present.ai</h1>
-        </a>
-        <nav class="text-sm">
-          <ul class="flex space-x-6 items-center">
-            <li><a href="#" class="hover:text-blue-500">Features</a></li>
-            <li><a href="#" class="hover:text-blue-500">Pricing</a></li>
-            <li><a href="#" class="hover:text-blue-500">Blog</a></li>
-            <li>
-              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                Try for Free
-              </button>
-            </li>
-          </ul>
-        </nav>
+{% block script %}
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous" defer></script>
+{% endblock %}
+
+{% block content %}
+<header class="bg-gray-800 text-white py-3">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="/">
+      <h1 class="text-2xl font-bold">Present.ai</h1>
+    </a>
+    <nav class="text-sm">
+      <ul class="flex space-x-6 items-center">
+        <li><a href="#" class="hover:text-blue-500">Features</a></li>
+        <li><a href="#" class="hover:text-blue-500">Pricing</a></li>
+        <li><a href="#" class="hover:text-blue-500">Blog</a></li>
+        <li>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+            Try for Free
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+<section class="bg-white text-gray-800 py-10">  
+  <div class="w-[100%] flex flex-col justify-around items-around md:flex-row">
+    <div class="text-center md:text-left md:w-1/3 flex flex-col justify-center"> 
+      <h1 class="text-4xl font-bold mb-4">Your AI Coach for Public Speaking and Presentation Skills</h1>
+      <p class="mb-6">Hone your message, pacing, and visuals for a captivating experience. Revolutionize your presentations, revolutionize your results - <b>sign up today!</b></p>
+      <!--
+      <div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+          Sign Up 
+        </button>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+          Login  
+        </button>
       </div>
-    </header>
-
-
-    <section class="bg-white text-gray-800 py-10">  
-      <div class="w-[100%] flex flex-col justify-around items-around md:flex-row">
-        <div class="text-center md:text-left md:w-1/3 flex flex-col justify-center"> 
-          <h1 class="text-4xl font-bold mb-4">Your AI Coach for Public Speaking and Presentation Skills</h1>
-          <p class="mb-6">Hone your message, pacing, and visuals for a captivating experience. Revolutionize your presentations, revolutionize your results - <b>sign up today!</b></p>
-          <!--
-          <div>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-              Sign Up 
-            </button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-              Login  
-            </button>
-          </div>
-          -->
-        </div>
-        <div class="mt-8 md:mt-0 md:w-1/2">
-          <img src="{{url_for('static', filename='images/presenting.jpg')}}" alt="Present.AI Interface" class="rounded-lg shadow-md w-[100%]"> 
-          <p class="text-xs text-gray-500 mt-2 italic text-center"> *Image is a placeholder. Final version will display a screenshot of the Present.AI UI</p>
-        </div>
-      </div>
-    </section>
+      -->
+    </div>
+    <div class="mt-8 md:mt-0 md:w-1/2">
+      <img src="{{url_for('static', filename='images/presenting.jpg')}}" alt="Present.AI Interface" class="rounded-lg shadow-md w-[100%]"> 
+      <p class="text-xs text-gray-500 mt-2 italic text-center"> *Image is a placeholder. Final version will display a screenshot of the Present.AI UI</p>
+    </div>
+  </div>
+</section>
 
 
 
-    <section class="features bg-gray-100 py-5">
-        <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12">Why Use Present.ai?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="mb-4">
-                        <img src="/static/images/advancement.png" alt="Promotion Icon" class="w-12 h-12 mx-auto"> 
-                    </div>
-                    <h3 class="text-xl font-semibold text-center mb-2">Career Advancement</h3>
-                    <p class="text-center">Studies show that strong presenters are far more likely to be perceived as leadership material and receive promotions.</p>
+<section class="features bg-gray-100 py-5">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12">Why Use Present.ai?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <img src="/static/images/advancement.png" alt="Promotion Icon" class="w-12 h-12 mx-auto"> 
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="mb-4">
-                        <img src="/static/images/influence.png" alt="Influence Icon" class="w-12 h-12 mx-auto"> 
-                    </div>
-                    <h3 class="text-xl font-semibold text-center mb-2">Increase your Influence</h3>
-                    <p class="text-center">Communication skills was rated by executives second, only behind leadership as the <b>most important skill</b> for employees to learn. </p>
+                <h3 class="text-xl font-semibold text-center mb-2">Career Advancement</h3>
+                <p class="text-center">Studies show that strong presenters are far more likely to be perceived as leadership material and receive promotions.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <img src="/static/images/influence.png" alt="Influence Icon" class="w-12 h-12 mx-auto"> 
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <div class="mb-4">
-                        <img src="/static/images/confidence.png" alt="Confidence Icon" class="w-12 h-12 mx-auto"> 
-                    </div>
-                    <h3 class="text-xl font-semibold text-center mb-2">Boost Confidence</h3>
-                    <p class="text-center">Practice your presentation, leading to less anxiety and greater poise in those high-stakes situations. Chase that well earned raise!</p>
+                <h3 class="text-xl font-semibold text-center mb-2">Increase your Influence</h3>
+                <p class="text-center">Communication skills was rated by executives second, only behind leadership as the <b>most important skill</b> for employees to learn. </p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <img src="/static/images/confidence.png" alt="Confidence Icon" class="w-12 h-12 mx-auto"> 
                 </div>
+                <h3 class="text-xl font-semibold text-center mb-2">Boost Confidence</h3>
+                <p class="text-center">Practice your presentation, leading to less anxiety and greater poise in those high-stakes situations. Chase that well earned raise!</p>
             </div>
         </div>
-    </section>
-
-    <div x-data="{
-      facts: [
-        '95% of respondents said that presenting well has a wider impact on a person’s career.',
-        '60% of people said a successful presentation can help build one’s personal reputation.',
-        '45% of people said that a strong presentation had helped them win new business.',
-        '50% of those surveyed believed impactful presenting skills could boost their organisation’s profile.'
-      ],
-      current_fact: 0,
-      nextFact() {
-        this.current_fact = (((this.current_fact + 1) % this.facts.length) + this.facts.length) % this.facts.length
-      },
-      prevFact() {
-        this.current_fact = (((this.current_fact - 1) % this.facts.length) + this.facts.length) % this.facts.length
-      }
-    }"
-         x-init="setInterval(() => {
-            current_fact = (((current_fact + 1) % facts.length) + facts.length) % facts.length
-         }, 3000)"
-      class="bg-gradient-to-r from-purple-500 to-purple-900 text-white p-9 rounded-t-lg shadow-md relative">
-      <div class="flex justify-center items-center gap-20">
-        <input type="image" src="{{ url_for('static', filename='images/left.svg') }}" class="w-[50px] bg-white rounded-full" @click="nextFact()">
-        <div class="w-1/3">
-          <h3 class="text-xl font-semibold text-center mb-2">Did You Know?</h3>
-          <p x-text="facts[current_fact]"></p>
-        </div>
-        <input type="image" src="{{ url_for('static', filename='images/right.svg') }}" class="w-[50px] bg-white rounded-full" @click="prevFact()">
-      </div>
-      <!-- <center><a href="https://secondnatureuk.co.uk/blog/importance-of-communication-skills-in-business/" aria-label="Source: Second Nature UK website"><b><u>Source</u></b></a></center> -->
     </div>
+</section>
 
-    <footer class="bg-gray-800 text-white py-4">
-      <div class="container mx-auto">
-        &copy; 2024 Present.ai. All rights reserved.
-      </div>    
-    </footer>
+<div x-data="{
+  facts: [
+    '95% of respondents said that presenting well has a wider impact on a person’s career.',
+    '60% of people said a successful presentation can help build one’s personal reputation.',
+    '45% of people said that a strong presentation had helped them win new business.',
+    '50% of those surveyed believed impactful presenting skills could boost their organisation’s profile.'
+  ],
+  current_fact: 0,
+  nextFact() {
+    this.current_fact = (((this.current_fact + 1) % this.facts.length) + this.facts.length) % this.facts.length
+  },
+  prevFact() {
+    this.current_fact = (((this.current_fact - 1) % this.facts.length) + this.facts.length) % this.facts.length
+  }
+}"
+      x-init="setInterval(() => {
+        current_fact = (((current_fact + 1) % facts.length) + facts.length) % facts.length
+      }, 3000)"
+  class="bg-gradient-to-r from-purple-500 to-purple-900 text-white p-9 rounded-t-lg shadow-md relative">
+  <div class="flex justify-center items-center gap-20">
+    <input type="image" src="{{ url_for('static', filename='images/left.svg') }}" class="w-[50px] bg-white rounded-full" @click="nextFact()">
+    <div class="w-1/3">
+      <h3 class="text-xl font-semibold text-center mb-2">Did You Know?</h3>
+      <p x-text="facts[current_fact]"></p>
+    </div>
+    <input type="image" src="{{ url_for('static', filename='images/right.svg') }}" class="w-[50px] bg-white rounded-full" @click="prevFact()">
+  </div>
+  <!-- <center><a href="https://secondnatureuk.co.uk/blog/importance-of-communication-skills-in-business/" aria-label="Source: Second Nature UK website"><b><u>Source</u></b></a></center> -->
+</div>
 
-  </body>
-</html>
+<footer class="bg-gray-800 text-white py-4">
+  <div class="container mx-auto">
+    &copy; 2024 Present.ai. All rights reserved.
+  </div>    
+</footer>
+{% endblock %}
