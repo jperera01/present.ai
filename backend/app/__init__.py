@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_sock import Sock
 import base64
 import json
+from flask_restx import Api, Resource, fields
 from app.main import main_bp
 from app.present import present_bp
 
@@ -9,7 +10,7 @@ from app.present import present_bp
 
 
 def create_app(config):
-    app = Flask(__name__) #added static_folder to allow images 
+    app = Flask(__name__)  # added static_folder to allow images
     sock = Sock(app)
 
     @sock.route('/handle-stream')
@@ -26,7 +27,6 @@ def create_app(config):
                 ...
             elif message['type'] == "video":
                 ...
-        
 
             # handle new receive
             # if sam:
@@ -41,5 +41,7 @@ def create_app(config):
 
     app.register_blueprint(main_bp)
     app.register_blueprint(present_bp)
+
+    api = Api(app, doc="/docs")
 
     return app

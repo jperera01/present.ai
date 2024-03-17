@@ -1,11 +1,15 @@
-{% extends "base.html" %}
-
-{% block script %}
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous" defer></script>
-{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block script %}
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+></script>
+<script
+  src="https://unpkg.com/htmx.org@1.9.10"
+  integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+  crossorigin="anonymous"
+  defer
+></script>
+{% endblock %} {% block content %}
 <header class="bg-gray-800 text-white py-3">
   <div class="container mx-auto flex justify-between items-center">
     <a href="/">
@@ -18,8 +22,10 @@
         <li><a href="#" class="hover:text-blue-500">Blog</a></li>
         {% block try %}
         <li>
-          <a href="/login">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+          <a href="/signup">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+            >
               Try for Free
             </button>
           </a>
@@ -30,8 +36,7 @@
   </div>
 </header>
 
-{% block sub_content %}
-{% endblock %}
+{% block sub_content %} {% endblock %}
 
 <footer class="bg-gray-800 text-white py-4">
   <div class="container mx-auto">
