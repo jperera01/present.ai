@@ -7,6 +7,11 @@ name = "pypi"
 flask = "*"
 flask-sock = "*"
 flask-restx = "*"
+flask-sqlalchemy = "*"
+flask-jwt-extended = "*"
+python-decouple = "*"
+flask-migrate = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

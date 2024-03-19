@@ -1,9 +1,70 @@
-{% extends "page_base.html" %} {% block title %}Signup{% endblock %} {% block
-try %} {% endblock %} {% block sub_content %}
-<div class="flex items-center justify-center h-screen">
-  <div class="bg-white p-8 rounded-lg shadow-lg min-w-[320px]">
+{% extends "page_base.j2" %} 
+
+{% block title %}Signup{% endblock %} 
+
+{% block local_script%}
+<script src="https://unpkg.com/htmx.org@1.9.11/dist/ext/response-targets.js"></script>
+<script defer>
+  /*document.addEventListener('DOMContentLoaded', () => {
+    htmx.on("htmx:afterRequest", function(evt) {
+      console.log('here')
+      console.log(evt)
+      if(evt.detail.successful) {
+        window.location.replace("/dashboard/@me");
+      } else if (evt.detail.failed) {
+        
+      } else {
+        console.log('unknown error: ' + evt.detail.target)
+      }
+    });
+    htmx.on("htmx:sendError", function(evt) {
+      console.log('here 2')
+      console.log(evt)
+      if(evt.detail.successful) {
+        window.location.replace("/dashboard/@me");
+      } else if (evt.detail.failed) {
+        
+      } else {
+        console.log('unknown error: ' + evt.detail.target)
+      }
+    });
+  })*/
+</script>
+{% endblock %}
+
+{% block try %} 
+{% endblock %} 
+
+
+{% block sub_content %}
+<div class="flex items-center justify-center h-screen" >
+  <div class="bg-white p-8 rounded-lg shadow-lg min-w-[320px]" hx-ext="response-targets">
     <h1 class="text-2xl font-bold mb-4 text-center">Sign Up</h1>
-    <form action="/signup" method="post">
+    <form hx-post="/auth/signup" hx-trigger="submit" hx-target-4*="#form-error" hx-swap="innerHTML" hx-boost="true"
+
+x-data="{
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        verify: '',
+        clearFormOnSuccess() {
+            document.body.addEventListener('htmx:afterSwap', () => {
+              console.log('here')
+              this.clearForm();
+            });
+        },
+        clearForm() {
+          this.first_name = ''
+          this.last_name = ''
+          this.email= ''
+          this.password= ''
+          this.verify = ''
+        }
+    }"
+  x-init="clearFormOnSuccess()"
+      >
+      <div id="form-error"></div>
       <div class="flex mb-4 -mx-2">
         <div class="w-1/2 px-2">
           <label
@@ -16,6 +77,7 @@ try %} {% endblock %} {% block sub_content %}
             id="first-name"
             name="first_name"
             required
+            x-model="first_name"
             class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
           />
         </div>
@@ -28,6 +90,7 @@ try %} {% endblock %} {% block sub_content %}
             id="last-name"
             name="last_name"
             required
+            x-model="last_name"
             class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
           />
         </div>
@@ -41,6 +104,7 @@ try %} {% endblock %} {% block sub_content %}
           id="email"
           name="email"
           required
+          x-model="email"
           class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
         />
       </div>
@@ -53,6 +117,7 @@ try %} {% endblock %} {% block sub_content %}
           id="password"
           name="password"
           required
+          x-model="password"
           class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
         />
       </div>
@@ -67,6 +132,7 @@ try %} {% endblock %} {% block sub_content %}
           id="password-confirm"
           name="password_confirmation"
           required
+          x-model="verify"
           class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
         />
       </div>

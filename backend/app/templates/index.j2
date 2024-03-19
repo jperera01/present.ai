@@ -1,4 +1,6 @@
-{% extends "page_base.html" %} {% block sub_content %}
+{% extends "page_base.j2" %} 
+
+{% block sub_content %}
 <section class="bg-white text-gray-800 py-10">
   <div class="w-[100%] flex flex-col justify-around items-around md:flex-row">
     <div class="text-center md:text-left md:w-1/3 flex flex-col justify-center">
@@ -98,15 +100,15 @@
     '50% of those surveyed believed impactful presenting skills could boost their organisation’s profile.'
   ],
   current_fact: 0,
-  nextFact() {
+  prevFact() {
     this.current_fact = (((this.current_fact + 1) % this.facts.length) + this.facts.length) % this.facts.length
   },
-  prevFact() {
+  nextFact() {
     this.current_fact = (((this.current_fact - 1) % this.facts.length) + this.facts.length) % this.facts.length
   }
 }"
   x-init="setInterval(() => {
-        current_fact = (((current_fact + 1) % facts.length) + facts.length) % facts.length
+          nextFact();
       }, 3000)"
   class="bg-gradient-to-r from-purple-500 to-purple-900 text-white p-9 rounded-t-lg shadow-md relative"
 >
@@ -115,7 +117,7 @@
       type="image"
       src="{{ url_for('static', filename='images/left.svg') }}"
       class="w-[50px] bg-white rounded-full"
-      @click="nextFact()"
+      @click="prevFact()"
     />
     <div class="w-1/3">
       <h3 class="text-xl font-semibold text-center mb-2">Did You Know?</h3>
@@ -125,7 +127,7 @@
       type="image"
       src="{{ url_for('static', filename='images/right.svg') }}"
       class="w-[50px] bg-white rounded-full"
-      @click="prevFact()"
+      @click="nextFact()"
     />
   </div>
   <!-- <center><a href="https://secondnatureuk.co.uk/blog/importance-of-communication-skills-in-business/" aria-label="Source: Second Nature UK website"><b><u>Source</u></b></a></center> -->

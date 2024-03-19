@@ -5,19 +5,19 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.get('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.j2")
 
 
 @main_bp.get('/login')
 def login():
-    return render_template("login.html")
+    return render_template("login.j2")
 
 
 @main_bp.get('/signup')
 def signup():
-    return render_template("signup.html")
+    return render_template("signup.j2")
 
 
 @main_bp.get('/present')
 def present():
-    return render_template("present.html")
+    return render_template("present.j2")
