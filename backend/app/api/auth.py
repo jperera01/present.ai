@@ -70,10 +70,8 @@ class SignUp(Resource):
 class Login(Resource):
     @auth_ns.expect(login_model)
     def post(self):
-        data = request.get_json()
-
-        email = data.get('email')
-        password = data.get('password')
+        email = request.form['email']
+        password = request.form['password']
 
         db_user = User.query.filter_by(email=email).first()
         error_message = 'authentication error.'
@@ -90,7 +88,8 @@ class Login(Resource):
             token = create_access_token(identity=db_user.email,
                                         expires_delta=timedelta(days=3))
 
-            resp = redirect('/dashboard/@me')
+            resp = make_response({}, 200)
+            resp.headers['HX-Redirect'] = '/dashboard/@me'
 
             resp.set_cookie('token', token)
 
@@ -102,5 +101,16 @@ class Login(Resource):
         resp.status = 400
 
         resp.content_type = 'text/html'
+
+        return resp
+
+
+@auth_ns.route('/logout')
+class Logout(Resource):
+    def post(self):
+        resp = make_response({}, 200)
+        resp.headers['HX-Redirect'] = '/'
+
+        resp.delete_cookie('token')
 
         return resp

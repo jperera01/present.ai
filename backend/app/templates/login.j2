@@ -9,32 +9,46 @@
 <div class="flex items-center justify-center h-screen">
   <div class="p-8 rounded-lg shadow-lg w-1/4">
     <h1 class="text-2xl font-bold mb-4 text-center">Login</h1>
-    <form action="/login" method="post">
+    <form hx-post="/auth/login" hx-trigger="submit" hx-target-4*="#form-error" hx-swap="innerHTML" hx-boost="true"
+      x-data="{
+        email: '',
+        password: '',
+        clearFormOnSuccess() {
+            document.body.addEventListener('htmx:afterSwap', () => {
+              this.clearForm();
+            });
+        },
+        clearForm() {
+          this.email= ''
+          this.password= ''
+        }
+      }"
+      x-init="clearFormOnSuccess()"
+    >
+      <div id="form-error"></div>
       <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-2"
-          >Email</label
-        >
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-2" >Email</label>
         <input
           type="email"
           id="email"
           name="email"
           placeholder="email"
           required
+          x-model="email"
           class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
         />
       </div>
       <div class="mb-6">
         <label
           for="password"
-          class="block text-sm font-medium text-gray-700 mb-2"
-          >Password</label
-        >
+          class="block text-sm font-medium text-gray-700 mb-2">Password</label>
         <input
           type="password"
           id="password"
           name="password"
           placeholder="password"
           required
+          x-model="password"
           class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
         />
       </div>

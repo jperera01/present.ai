@@ -1,5 +1,18 @@
 {% extends "base.j2" %}
 
+{% block script %}
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+></script>
+<script
+  src="https://unpkg.com/htmx.org@1.9.10"
+  integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+  crossorigin="anonymous"
+></script>
+{% endblock %}
+
 {% block content %}
 <h1>Welcome {{name}}</h1>
+<button hx-post="/auth/logout" hx-trigger="click" hx-boost="true">logout</button>
 {% endblock %}
