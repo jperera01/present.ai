@@ -9,28 +9,45 @@ let canvas = null;
 let context = null
 let videoerrorcontainer = null
 let ws = null
-let recorder = null
 
-async function getUserUser() {
+async function getUserMedia() {
   const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
 
-  recorder = new MediaRecorder(stream)
-  recorder.ondataavailable = async function(e) {
-    const data = await e.data.text()
+  const audioTrack = stream.getAudioTracks()[0];
+  const audioStream = new MediaStream([audioTrack]);
+  const audioRecorder = new MediaRecorder(audioStream);
+
+  audioRecorder.ondataavailable = async function(e) {
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      const base64data = reader.result.split(',')[1];
+      console.log(base64data)
+      ws.send(JSON.stringify({
+        type: "audio",
+        data: base64data
+      }));
+    };
+
+    reader.onerror = function(error) {
+      console.error("FileReader error: ", error);
+    };
+
+    reader.readAsDataURL(e.data);
+    /*const data = await e.data.text()
     ws.send(JSON.stringify({
       type: "audio",
       data
-    }))
+    }))*/
   }
 
-  recorder.onerror = function(e) {
+  audioRecorder.onerror = function(e) {
     console.log(e)
   }
 
-  recorder.start(1000)
+  audioRecorder.start(5000)
   video.srcObject = stream;
   video.play();
-  console.log(recorder)
 }
 
 function startStream() {
@@ -48,12 +65,13 @@ function startStream() {
 
 async function startStreamHandleException() {
   try {
-    await getUserUser()
+    await getUserMedia()
 
     videoerrorcontainer.style.display = "hidden";
 
     startStream()
   } catch (err) {
+    console.log(err)
 
     videoerrorcontainer.style.display = "block";
 

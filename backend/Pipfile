@@ -12,6 +12,9 @@ flask-jwt-extended = "*"
 python-decouple = "*"
 flask-migrate = "*"
 psycopg2 = "*"
+speechrecognition = "*"
+google-cloud-speech = "*"
+pydub = "*"
 
 [dev-packages]
 
