@@ -51,3 +51,8 @@ def signup():
 @main_bp.get('/present')
 def present():
     return render_template("present.j2")
+
+
+@main_bp.get('/pricing')
+def pricing():
+    return render_template("pricing.j2")
