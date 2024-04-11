@@ -6,8 +6,10 @@
 {% endblock %}
 
 {% block sub_content %}
-<div class="flex items-center justify-center h-screen">
-  <div class="p-8 rounded-lg shadow-lg w-1/4">
+
+<div class="flex items-center justify-center h-screen h-screen relative bg-gray-500"> <div class="absolute top-0 left-0 w-full h-full bg-cover bg-no-repeat bg-center z-0 blur-sm"  style="background-image: url('static/images/signup-bg.jpg')"> 
+  </div>
+  <div class="bg-white p-8 rounded-lg shadow-lg w-1/4 z-10">
     <h1 class="text-2xl font-bold mb-4 text-center">Login</h1>
     <form hx-post="/auth/login" hx-trigger="submit" hx-target-4*="#form-error" hx-swap="innerHTML" hx-boost="true"
       x-data="{
@@ -26,39 +28,50 @@
       x-init="clearFormOnSuccess()"
     >
       <div id="form-error"></div>
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-2" >Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="email"
-          required
+     
+      <div class="relative mb-5">
+        <input 
+          id="email" 
+          name="email" 
+          type="text" 
           x-model="email"
-          class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-        />
+          class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+          placeholder="" 
+          />
+        <label 
+          for="email" 
+          class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Email Address</label>
       </div>
-      <div class="mb-6">
-        <label
-          for="password"
-          class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="password"
+      <div class="relative mb-5">
+        <input 
+          id="password" 
+          name="password" 
+          type="password" 
           required
           x-model="password"
-          class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-        />
+          class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+          placeholder="" />
+        <label 
+          for="password" 
+          class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
       </div>
+
+      <div class="flex items-start">
+        <div class="flex items-center h-5">
+            <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
+        </div>
+          <div class="ml-3 text-sm mb-3">
+            <label for="remember" class="text-black-500 text-gray-500 ">Remember me</label>
+          </div>
+       </div>
+
       <button
         type="submit"
         class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
       >
         Log In
       </button>
-      <p class="text-sm text-gray-500 mt-2">
+      <p class="text-sm text-gray-500 mt-4">
         Don't have an account?
         <a href="/signup" class="text-blue-500 hover:text-blue-600">sign up</a>
       </p>

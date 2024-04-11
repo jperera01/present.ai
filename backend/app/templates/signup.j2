@@ -37,9 +37,13 @@
 
 
 {% block sub_content %}
-<div class="flex items-center justify-center h-screen" >
-  <div class="bg-white p-8 rounded-lg shadow-lg min-w-[320px]" hx-ext="response-targets">
-    <h1 class="text-2xl font-bold mb-4 text-center">Sign Up</h1>
+
+
+<div class="flex items-center justify-center h-screen h-screen relative bg-gray-500"> 
+  <div class="absolute blur-sm top-0 left-0 w-full h-full bg-cover bg-no-repeat bg-center z-0" style="background-image: url('static/images/signup-bg.jpg')"> 
+  </div>
+  <div class="bg-white p-8 rounded-lg shadow-lg min-w-[320px] z-10" hx-ext="response-targets">
+    <h1 class="text-2xl font-bold mb-7 text-center">Sign Up</h1>
     <form hx-post="/auth/signup" hx-trigger="submit" hx-target-4*="#form-error" hx-swap="innerHTML" hx-boost="true"
       x-data="{
         first_name: '',
@@ -63,77 +67,91 @@
       x-init="clearFormOnSuccess()"
     >
       <div id="form-error"></div>
-      <div class="flex mb-4 -mx-2">
-        <div class="w-1/2 px-2">
-          <label
-            for="first-name"
-            class="block text-sm font-medium text-gray-700"
-            >First Name</label
-          >
-          <input
-            type="text"
-            id="first-name"
-            name="first_name"
-            required
-            x-model="first_name"
-            class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-          />
+<div class="relative flex mb-4 -mx-2">
+    <div class="w-1/2 px-2">
+        <div class="relative"> 
+          <input 
+                id="first-name" 
+                name="first_name"
+                required 
+                type="text" 
+                class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+                placeholder=""
+                x-model="first_name" 
+            />
+            <label 
+                for="first-name" 
+                class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">First Name</label>
         </div>
-        <div class="w-1/2 px-2">
-          <label for="last-name" class="block text-sm font-medium text-gray-700"
-            >Last Name</label
-          >
-          <input
-            type="text"
-            id="last-name"
-            name="last_name"
-            required
-            x-model="last_name"
-            class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-          />
+    </div>
+    <div class="w-1/2 px-2">
+        <div class="relative"> 
+          <input 
+                id="last-name" 
+                name="last_name" 
+                type="text"
+                x-model="last_name" 
+                class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+                placeholder="" />
+            <label 
+                for="last-name" 
+                class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Last Name</label>
         </div>
-      </div>
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700"
-          >Email</label
-        >
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
+    </div>
+</div>
+      <div class="relative mb-5">
+        <input 
+          id="email" 
+          name="email" 
+          type="text" 
           x-model="email"
-          class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-        />
+          class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+          placeholder="" 
+          />
+        <label 
+          for="email" 
+          class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Email Address</label>
       </div>
-      <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-gray-700"
-          >Password</label
-        >
-        <input
-          type="password"
-          id="password"
-          name="password"
+      <div class="relative mb-5">
+        <input 
+          id="password" 
+          name="password" 
+          type="password" 
           required
           x-model="password"
-          class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-        />
+          class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+          placeholder="" />
+        <label 
+          for="password" 
+          class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
       </div>
-      <div class="mb-6">
-        <label
-          for="password-confirm"
-          class="block text-sm font-medium text-gray-700"
-          >Confirm Password</label
-        >
-        <input
-          type="password"
-          id="password-confirm"
-          name="password_confirmation"
+      <div class="relative mb-5">
+        <input 
+          id="password-confirm" 
+          name="password_confirmation" 
+          type="password" 
           required
           x-model="verify"
-          class="ps-1 outline-none block w-full sm:text-sm border-2 border-gray-300 focus:border-gray-500 rounded-md h-[40px]"
-        />
+          class="peer h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus:outline-none focus:border-blue-400" 
+          placeholder="" />
+        <label 
+          for="password-confirm" 
+          class="absolute left-0 -top-3.5 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Confirm Password</label>
       </div>
+
+<div class="flex items-start mb-3"> <div class="flex items-center h-5">
+    <input 
+      id="terms" 
+      aria-describedby="terms" 
+      type="checkbox" 
+      class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" 
+      required />
+  </div>
+  <div class="ml-3 text-sm"> 
+    <label for="terms" class="font-light text-gray-500 dark:text-gray-500">I accept the <a class="font-medium text-blue-600 hover:underline dark:text-primary-600" href="#">Terms and Conditions</a></label>
+  </div>
+</div>
+
       <button
         type="submit"
         class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
@@ -142,7 +160,7 @@
       </button>
       <p class="text-sm text-gray-500 mt-2">
         Already have an account?
-        <a href="/login" class="text-blue-500 hover:text-blue-600">log in</a>
+        <a href="/login" class="text-blue-500 hover:text-blue-600">Log in.</a> 
       </p>
     </form>
   </div>
