@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_sock import Sock
+import threading
 import base64
 import io
 import json
@@ -14,9 +15,13 @@ from app.main import main_bp
 from app.dashboard import dashboard_bp
 from app.present import present_bp
 from app.api.auth import auth_ns
+from app.api.api import api_ns
 from app.config import DevConfig
 
 # sam = True
+
+
+r = sr.Recognizer()
 
 
 def convert_ogg_to_wav(ogg_data):
@@ -27,10 +32,25 @@ def convert_ogg_to_wav(ogg_data):
     return wav_io
 
 
+def process_audio(data, ws):
+    try:
+        wav_audio = convert_ogg_to_wav(data)
+
+        with sr.AudioFile(wav_audio) as source:
+            audio = r.record(source)
+
+            try:
+                text = r.recognize_google(audio)
+                ws.send(text)
+            except Exception as e:
+                print(e)
+    except Exception as e:
+        print(e)
+
+
 def create_app():
     app = Flask(__name__)  # added static_folder to allow images
     sock = Sock(app)
-    r = sr.Recognizer()
 
     # r.recognize_google()
 
@@ -46,35 +66,16 @@ def create_app():
     def handle_stream(ws):
         global sam
         while True:
-            received = ws.receive()
-            if received is None:
+            message = ws.receive()
+            if message is None:
                 break
 
-            message = json.loads(received)
+            message = json.loads(message)
 
             if message['type'] == "audio":
-                data = message['data']
-                print(data)
-                print()
-                print()
-                print()
-                print()
-                print()
-                binary_data = base64.b64decode(data)
-
-                try:
-                    wav_audio = convert_ogg_to_wav(binary_data)
-
-                    with sr.AudioFile(wav_audio) as source:
-                        audio = r.record(source)
-
-                        try:
-                            text = r.recognize_google(audio)
-                            print(text)
-                        except Exception as e:
-                            print(e)
-                except Exception as e:
-                    print(e)
+                binary_data = base64.b64decode(message['data'])
+                threading.Thread(target=process_audio,
+                                 args=(binary_data, ws)).start()
 
             elif message['type'] == "video":
                 ...
@@ -95,6 +96,7 @@ def create_app():
     api = Api(app, doc="/docs")
 
     api.add_namespace(auth_ns)
+    api.add_namespace(api_ns)
 
     @app.shell_context_processor
     def make_shell_context():

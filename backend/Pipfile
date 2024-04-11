@@ -15,6 +15,10 @@ psycopg2 = "*"
 speechrecognition = "*"
 google-cloud-speech = "*"
 pydub = "*"
+pip = "*"
+install = "*"
+pycouchdb = "*"
+pymongo = "*"
 
 [dev-packages]
 

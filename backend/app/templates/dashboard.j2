@@ -13,6 +13,22 @@
 {% endblock %}
 
 {% block content %}
-<h1>Welcome {{name}}</h1>
-<button hx-post="/auth/logout" hx-trigger="click" hx-boost="true">logout</button>
+<header>
+  <h1>present.ai</h1>
+  <nav>
+    <ul>
+      <li><a href="/dashboard/home">home</a></li>
+      <li><a href="/dashboard/present">present</a></li>
+      <li><a href="/dashboard/sessions">sessions</a></li>
+      <li><a href="/dashboard/resources">resources</a></li>
+    </ul>
+  </nav>
+  <div>
+    <img src="/static/images/user.png" width='50px'/>
+    <p>name goes here</p>
+  </div>
+</header>
+{% block sub_content %}
+{% endblock %}
+
 {% endblock %}

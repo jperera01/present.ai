@@ -7,8 +7,8 @@ dashboard_bp = Blueprint('dashboard',
                          url_prefix="/dashboard")
 
 
-@dashboard_bp.get('/@me')
-def me():
+@dashboard_bp.get('/home')
+def home():
     try:
         token = request.cookies.get('token')
 
@@ -19,11 +19,10 @@ def me():
         db_user = User.query.filter_by(email=email).first()
 
         if db_user is None:
-
             return redirect("/login")
 
         name = f"{db_user.first_name} {db_user.last_name}"
 
-        return render_template('dashboard.j2', name=name)
+        return render_template('dashboard/home.j2', name=name)
     except Exception:
         return redirect("/login")

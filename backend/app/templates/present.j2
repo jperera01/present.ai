@@ -1,6 +1,7 @@
 {% extends "base.j2" %}
 
 {% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.min.js" integrity="sha512-Dc8aBUPSsnAiEtyqTYZrldxDfs2FnS8cU7BVHIJ1m5atjKrtQCoPRIn3gsVbKm2qY8NwjpTVTnawoC4XBvEZiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{url_for('static', filename='js/stream.js')}}" defer></script>
 {% endblock %}
 
@@ -19,6 +20,8 @@
     <div id="videoerrorcontainer" class="hidden">
         <p class="text-red-500">Video must be enabled</p>
     </div>
+
+    <p id="backend_text" class="absolute text-3xl text-white font-bold bottom-16"></p>
   </div>
 </main>
 {% endblock %}

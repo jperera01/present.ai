@@ -5,6 +5,11 @@ from app.models import User
 main_bp = Blueprint('main', __name__)
 
 
+@main_bp.get('/test')
+def test():
+    return render_template("test.j2")
+
+
 @main_bp.get('/')
 def index():
     return render_template("index.j2")
@@ -24,7 +29,7 @@ def login():
         if db_user is None:
             return render_template("login.j2")
 
-        return redirect('/dashboard/@me')
+        return redirect('/dashboard/home')
     except Exception:
         return render_template("login.j2")
 
@@ -43,7 +48,7 @@ def signup():
         if db_user is None:
             return render_template("signup.j2")
 
-        return redirect('/dashboard/@me')
+        return redirect('/dashboard/home')
     except Exception:
         return render_template("signup.j2")
 

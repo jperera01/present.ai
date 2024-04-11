@@ -1,0 +1,21 @@
+{% extends "dashboard.j2" %} 
+
+
+{% block sub_content %}
+<main>
+  <h1 class="text-5xl">Hi, {{ name }} 👋</h1>
+
+  <div>
+    <div class="w-[400px] bg-[gray] rounded text-[white]" hx-get="/api/dashboard/home/total_presentations" hx-trigger="load" hx-target="#total_presentations" hx-swap="innerHTML">
+      <p class="text-center text-3xl">Total Presentations</p>
+      <p class="text-center text-2xl" id="total_presentations"></p>
+    </div>
+  </div>
+
+  <div hx-get="/api/dashboard/home/recent_presentations" hx-trigger="load" hx-target="#recent_presentations" hx-swap="innerHTML">
+    <h2>Recent Presentations</h2>
+    <ul id="recent_presentations">
+    </ul>
+  </div>
+</main>
+{% endblock %}
