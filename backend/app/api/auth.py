@@ -59,7 +59,7 @@ class SignUp(Resource):
 
         resp = make_response({}, 200)
 
-        resp.headers['HX-Redirect'] = '/dashboard/@me'
+        resp.headers['HX-Redirect'] = '/dashboard/home'
 
         resp.set_cookie('token', token)
 
@@ -89,7 +89,7 @@ class Login(Resource):
                                         expires_delta=timedelta(days=3))
 
             resp = make_response({}, 200)
-            resp.headers['HX-Redirect'] = '/dashboard/@me'
+            resp.headers['HX-Redirect'] = '/dashboard/home'
 
             resp.set_cookie('token', token)
 

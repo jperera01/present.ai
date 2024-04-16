@@ -28,8 +28,10 @@ class RecentPresentations(Resource):
         query = p_sessions.find({"id": token}).sort(
             'field', pymongo.ASCENDING).limit(3)
 
+        print(query)
+
         resp = make_response(render_template(
-            "dashboard/partials/recent.j2"), resent=list(query))
+            "dashboard/partials/recent.j2", recent=list(query)))
 
         resp.headers['content-type'] = 'text/html'
 

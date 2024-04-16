@@ -1,0 +1,16 @@
+{% if recent|length == 0 %}
+
+<p>You don't have any presentations...</p>
+
+{% else %}
+
+{% for line in recent %}
+<li>
+  <p>{{ line.title }}</p>
+  <p>{{ line.length }} minutes</p>
+</li>
+{% endfor %}
+
+{% endif %}
+
+
