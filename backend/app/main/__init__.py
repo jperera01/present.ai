@@ -55,6 +55,11 @@ def signup():
 
 @main_bp.get('/present')
 def present():
+    if str(request.referrer).split('/')[-1] != 'present':
+        resp = redirect('/dashboard/home')
+
+        return resp
+
     return render_template("present.j2")
 
 

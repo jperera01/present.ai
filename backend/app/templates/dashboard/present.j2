@@ -1,0 +1,23 @@
+{% extends "dashboard.j2" %} 
+
+
+{% block sub_content %}
+<main>
+  <h1>Create a new presentation</h1>
+  <p>required fields are marked with an asterisk(*)</p>
+  <form class="flex flex-col"  hx-post="/api/dashboard/home/create_presentations" hx-trigger="submit" hx-boost="true">
+    <label for="present_name">presentation name <span>*</span></label>
+    <input id="present_name" name="present_name" type="text" required />
+
+    <label for="present_description">presentation description <span>(optional)</span></label>
+    <input id="present_description" name="present_description" type="text" />
+
+    <label for="present_length">presentation length<span>*</span></label>
+    <div>
+      <input id="present_length" type="number" name="present_length" min="1" max="99" required /> <span> minutes</span>
+    </div>
+
+    <input type="submit" value="create presentation" />
+  </form>
+</main>
+{% endblock %}

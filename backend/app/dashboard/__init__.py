@@ -26,3 +26,22 @@ def home():
         return render_template('dashboard/home.j2', name=name)
     except Exception:
         return redirect("/login")
+
+
+@dashboard_bp.get('/present')
+def present():
+    try:
+        token = request.cookies.get('token')
+
+        token_decoded = decode_token(token)
+
+        email = token_decoded['sub']
+
+        db_user = User.query.filter_by(email=email).first()
+
+        if db_user is None:
+            return redirect("/login")
+
+        return render_template('dashboard/present.j2')
+    except Exception:
+        return redirect("/login")

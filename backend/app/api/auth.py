@@ -78,7 +78,9 @@ class Login(Resource):
 
         if db_user is None:
             resp = make_response(render_template("error.j2",
-                                                 message=error_message), 200)
+                                                 message=error_message))
+
+            resp.status = 400
 
             resp.content_type = 'text/html'
 
