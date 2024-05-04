@@ -19,6 +19,8 @@ pip = "*"
 install = "*"
 pycouchdb = "*"
 pymongo = "*"
+openai = "*"
+nltk = "*"
 
 [dev-packages]
 

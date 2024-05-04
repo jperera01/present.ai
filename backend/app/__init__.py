@@ -17,11 +17,13 @@ from app.present import present_bp
 from app.api.auth import auth_ns
 from app.api.api import api_ns
 from app.config import DevConfig
+from app.ai.image import get_sentiment
 
 # sam = True
 
 
 r = sr.Recognizer()
+image_store = []
 
 
 def convert_ogg_to_wav(ogg_data):
@@ -41,7 +43,12 @@ def process_audio(data, ws):
 
             try:
                 text = r.recognize_google(audio)
-                ws.send(text)
+                if text:
+                    data = {
+                        'type': 'audio_trans',
+                        'audio_trans': text
+                    }
+                    ws.send(json.dumps(data))
             except Exception as e:
                 print(e)
     except Exception as e:
@@ -75,10 +82,21 @@ def create_app():
             if message['type'] == "audio":
                 binary_data = base64.b64decode(message['data'])
                 threading.Thread(target=process_audio,
-                                 args=(binary_data, ws)).start()
+                                args=(binary_data, ws)).start()
 
             elif message['type'] == "video":
-                ...
+                image_store.append(message['data'])
+                if len(image_store) == 2:
+                    analysis = get_sentiment(image_store[0], image_store[1])
+                    print(analysis)
+
+                    data = {
+                        'type': 'confidence',
+                        'confidence': analysis
+                    }
+                    ws.send(json.dumps(data))
+                    image_store.clear()
+
 
             # handle new receive
             # if sam:

@@ -3,22 +3,110 @@
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/recorderjs/0.1.0/recorder.min.js" integrity="sha512-Dc8aBUPSsnAiEtyqTYZrldxDfs2FnS8cU7BVHIJ1m5atjKrtQCoPRIn3gsVbKm2qY8NwjpTVTnawoC4XBvEZiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{url_for('static', filename='js/stream.js')}}" defer></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+></script>
+<script
+  src="https://unpkg.com/htmx.org@1.9.10"
+  integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+  crossorigin="anonymous"
+></script>
 {% endblock %}
 
 {% block content %}
-<main>
-  <a href="/">
-    <button class="absolute bg-red-500 text-white font-bold px-3 py-1 rounded top-5 left-5">exit</button>
-  </a>
+  <main 
+    x-data="{
+      currentMinutes: 0,
+      overTime: false,
+      get timeInMinuteSecond() {
+        const mappedMinutes = this.currentMinutes < 0 ? (this.currentMinutes * -1) : this.currentMinutes
+        const wholeMinutes = Math.floor(mappedMinutes);
+        const seconds = Math.round((mappedMinutes - wholeMinutes) * 60);
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+        return `${wholeMinutes}:${formattedSeconds}`;
+      },
+
+      async initialize() {
+
+        document.body.addEventListener('htmx:afterRequest', async (e) => {
+          if (e.detail.pathInfo.requestPath === '/api/init-present') {
+            data = JSON.parse(e.detail.xhr.response)
+            console.log('data', data['length'])
+            this.currentMinutes = data['length']
+
+            const permissionsGranted = await startup();
+            console.log('permissions', permissionsGranted)
+            if (permissionsGranted) {
+              this.startTimer();
+            }
+          }
+        });
+      },
+
+      startTimer() {
+        const interval = setInterval(() => {
+          let totalSeconds = this.currentMinutes * 60;
+          totalSeconds--;
+          this.currentMinutes = totalSeconds / 60;
+          if (this.currentMinutes <= 0) {
+            clearInterval(interval);
+            this.currentMinutes = 0;
+            document.getElementById('overModal').classList.remove('hidden');
+          }
+        }, 1e3);
+      },
+
+      handleContinue() {
+        this.overTime = true;
+        document.getElementById('overModal').classList.add('hidden');
+        setInterval(() => {
+          this.currentMinutes -= (1 / 60)
+        }, 1e3);
+        },
+
+        submitEnd() {
+          console.log('this is the end')
+        }
+    }"
+    x-init="initialize()"
+    hx-post="/api/init-present"
+    hx-trigger="load"
+    hx-swap="none"
+  >
+
+  <div id="overModal" class="modal hidden fixed inset-0 bg-black bg-opacity-40 z-10 overflow-auto flex items-center justify-center">
+    <div class="modal-content bg-white m-auto p-5 border border-gray-300 w-4/5 md:w-3/5 lg:w-2/5">
+      <p>The presentation time is over. Do you want to end the presentation?</p>
+      <div class="flex justify-center gap-4">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="handleContinue">
+          Continue
+        </button>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" @click="submitEnd">
+            End
+          </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="unconfidentModal" class="modal hidden fixed inset-0 bg-black bg-opacity-40 z-10 overflow-auto flex items-center justify-center">
+    <div class="modal-content bg-white m-auto p-5 border border-gray-300 w-4/5 md:w-3/5 lg:w-2/5">
+      <p>You're looking unconfident!</p>
+    </div>
+  </div>
+
+  <button class="absolute bg-red-500 text-white font-bold px-3 py-1 rounded top-5 left-5 z-10">exit</button>
   <div class="bg-black flex justify-center">
-    <div>
+    <div class="relative">
       <video id="video" class="h-lvh">
       </video>
+      <p id="timer" x-text="timeInMinuteSecond" :class="overTime ? 'text-red' : ''" class="text-white absolute bottom-[20px] left-[20px]"></p>
       <canvas id="canvas" class="hidden"></canvas>
     </div>
 
     <div id="videoerrorcontainer" class="hidden">
-        <p class="text-red-500">Video must be enabled</p>
+      <p class="text-red-500">Video and audio must be enabled</p>
     </div>
 
     <p id="backend_text" class="absolute text-3xl text-white font-bold bottom-16"></p>

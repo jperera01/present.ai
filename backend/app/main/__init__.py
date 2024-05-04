@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, session
 from flask_jwt_extended import decode_token
 from app.models import User
 
@@ -55,10 +55,14 @@ def signup():
 
 @main_bp.get('/present')
 def present():
+    """
     if str(request.referrer).split('/')[-1] != 'present':
         resp = redirect('/dashboard/home')
 
         return resp
+
+    session['location'] = 'present'
+    """
 
     return render_template("present.j2")
 
@@ -66,3 +70,17 @@ def present():
 @main_bp.get('/pricing')
 def pricing():
     return render_template("pricing.j2")
+
+
+"""
+@main_bp.get('/')
+def present():
+    if str(request.referrer).split('/')[-1] != 'present':
+        resp = redirect('/dashboard/home')
+
+        return resp
+
+    session['location'] = 'present'
+
+    return render_template("present.j2")
+"""

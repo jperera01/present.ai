@@ -16,5 +16,6 @@ p_sessions schema:
     name: string
     description: string
     length: number
+    timestamp: datetime
 }
 """

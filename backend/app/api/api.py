@@ -5,6 +5,7 @@ from flask import request, render_template, redirect, make_response
 import pymongo
 from app.models import User
 from flask_jwt_extended import decode_token
+import datetime
 
 api_ns = Namespace('api', description='namespace for general apis')
 
@@ -14,7 +15,13 @@ class TotalPresentations(Resource):
     def get(self):
         token = request.cookies.get('token')
 
-        query = p_sessions.find({"user_id": token})
+        token_decoded = decode_token(token)
+
+        email = token_decoded['sub']
+
+        db_user = User.query.filter_by(email=email).first()
+
+        query = p_sessions.find({"user_id": db_user.id})
 
         resp = make_response(f"{len(list(query))}")
 
@@ -28,8 +35,14 @@ class RecentPresentations(Resource):
     def get(self):
         token = request.cookies.get('token')
 
-        query = p_sessions.find({"user_id": token}).sort(
-            'field', pymongo.ASCENDING).limit(3)
+        token_decoded = decode_token(token)
+
+        email = token_decoded['sub']
+
+        db_user = User.query.filter_by(email=email).first()
+
+        query = p_sessions.find({"user_id": db_user.id}).sort(
+            'timestamp', pymongo.DESCENDING).limit(3)
 
         print(query)
 
@@ -57,7 +70,10 @@ class CreatePresentation(Resource):
         p_sessions.insert_one({
             "user_id": db_user.id,
             "presentation_id": presentation_id,
-            "name": request.form['present_name']
+            "name": request.form['present_name'],
+            "description": request.form['present_description'],
+            "length": request.form['present_length'],
+            "timestamp": datetime.datetime.now()
         })
 
         resp = make_response(render_template("present.j2"))
@@ -67,3 +83,16 @@ class CreatePresentation(Resource):
         resp.set_cookie('present_id', presentation_id)
 
         return resp
+
+
+@api_ns.route('/init-present')
+class InitPresetn(Resource):
+    def post(self):
+        presentation_id = request.cookies.get('present_id')
+
+        presentation = p_sessions.find_one({ "presentation_id": presentation_id })
+        print(presentation['length'])
+
+        return {
+            'length': presentation['length']
+        }
