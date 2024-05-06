@@ -13,21 +13,71 @@
 {% endblock %}
 
 {% block content %}
-<header>
-  <h1>present.ai</h1>
-  <nav>
-    <ul>
-      <li><a href="/dashboard/home">home</a></li>
-      <li><a href="/dashboard/present">present</a></li>
-      <li><a href="/dashboard/sessions">sessions</a></li>
-      <li><a href="/dashboard/resources">resources</a></li>
-    </ul>
-  </nav>
-  <div>
-    <img src="/static/images/user.png" width='50px'/>
-    <p>name goes here</p>
-  </div>
-</header>
+<div class="relative min-h-screen md:flex" data-dev-hint="container">
+    <input type="checkbox" id="menu-open" class="hidden" />
+    <header class="bg-gray-200 text-gray-100 flex justify-between md:hidden" data-dev-hint="mobile menu bar">
+        <a href="#" class="block p-4 text-white font-bold whitespace-nowrap truncate">
+        Present.ai 
+        </a>
+
+        <label for="menu-open" id="mobile-menu-button" class="m-2 p-2 focus:outline-none hover:text-white hover:bg-gray-700 rounded-md">
+            <svg id="menu-open-icon" class="h-6 w-6 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="menu-close-icon" class="h-6 w-6 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </label>
+    </header>
+
+    <aside id="sidebar" class="bg-gray-800 text-gray-100 md:w-64 w-1/4 space-y-6 pt-6 px-0 fixed inset-y-0 left-0 transform md:translate-x-0 transition duration-200 ease-in-out  md:flex md:flex-col md:justify-between overflow-y-auto" data-dev-hint="sidebar; for frameless; px-2 for visually inset the navigation">
+        <div class="flex flex-col space-y-6" data-dev-hint="optional div for having an extra footer navigation">
+            <a href="#" class="text-white flex items-center space-x-2 px-4" title="Present.ai">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+
+                <span class="text-2xl font-extrabold whitespace-nowrap truncate">Present.ai</span>
+            </a>
+
+            <nav data-dev-hint="main navigation">
+                <a href="/dashboard/home" class="flex items-center space-x-2 py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="/dashboard/present"class="flex items-center space-x-2 py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white">
+                <svg fill="#FFFFFF" class="w-4 h-4" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="m439.5,236c0-11.3-9.1-20.4-20.4-20.4s-20.4,9.1-20.4,20.4c0,70-64,126.9-142.7,126.9-78.7,0-142.7-56.9-142.7-126.9 0-11.3-9.1-20.4-20.4-20.4s-20.4,9.1-20.4,20.4c0,86.2 71.5,157.4 163.1,166.7v57.5h-23.6c-11.3,0-20.4,9.1-20.4,20.4 0,11.3 9.1,20.4 20.4,20.4h88c11.3,0 20.4-9.1 20.4-20.4 0-11.3-9.1-20.4-20.4-20.4h-23.6v-57.5c91.6-9.3 163.1-80.5 163.1-166.7z"></path> <path d="m256,323.5c51,0 92.3-41.3 92.3-92.3v-127.9c0-51-41.3-92.3-92.3-92.3s-92.3,41.3-92.3,92.3v127.9c0,51 41.3,92.3 92.3,92.3zm-52.3-220.2c0-28.8 23.5-52.3 52.3-52.3s52.3,23.5 52.3,52.3v127.9c0,28.8-23.5,52.3-52.3,52.3s-52.3-23.5-52.3-52.3v-127.9z"></path> </g> </g> </g></svg>
+                    <span class="ml-6">Present</span>
+                </a>
+                <a href="/dashboard/sessions" class="flex items-center space-x-2 py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white group">
+                    
+                    <svg fill="#FFFFFF" class="w-4 h-4" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 509.058 509.058" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g id="Layer_8_10_"> <path d="M354.024,466.595c-38.668,12.329-79.86,13.878-119.149,4.486l15.764-65.982c27.261,6.525,55.88,5.432,82.78-3.139 c81.32-25.906,126.366-113.126,100.453-194.432c-25.889-81.291-113.114-126.354-194.411-100.441 c-78.365,24.967-122.867,106.875-102.806,185.548l10.084,31.628l58.907-48.096c1.98-1.625,4.788-1.702,6.868-0.236 c2.086,1.46,2.926,4.149,2.069,6.549l-59.599,164.834c-0.614,1.648-1.927,2.926-3.617,3.47c-1.679,0.538-3.511,0.26-4.947-0.745 L2.435,350.069c-1.07-0.721-1.797-1.75-2.157-2.92c-0.373-1.152-0.378-2.399,0.035-3.617c0.846-2.4,3.192-3.937,5.733-3.76 l75.883,5.143l-7.56-22.804c-2.613-8.187-8.517-36.232-8.89-41.044C52.954,177.156,115.537,75.364,218.857,42.45 c116.933-37.273,242.4,27.547,279.668,144.483C535.799,303.877,470.981,429.333,354.024,466.595z M286.399,119.668 c-6.478,0-11.732,5.249-11.732,11.732v157.085c0,4.362,2.417,8.369,6.283,10.391c1.702,0.887,3.576,1.348,5.438,1.348 c2.341,0,4.664-0.691,6.667-2.08l106.246-73.406c5.326-3.673,6.674-10.979,2.985-16.313c-3.665-5.308-10.971-6.644-16.308-2.976 l-87.869,60.689V131.395C298.109,124.917,292.866,119.668,286.399,119.668z"></path> </g> </g> </g></svg>
+                    <span>Sessions</span>
+                </a>
+
+                <a href="/dashboard/resources" class="flex items-center space-x-2 py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white group">
+                    <svg fill="#FFFFFF" class ="w-4 h-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3.994 1c-1.258.015-2.179-.029-2.932.387a1.878 1.878 0 0 0-.84.996C.058 2.821 0 3.343 0 4v8c0 .658.058 1.179.223 1.617.164.439.463.79.84.998.752.416 1.673.37 2.931.385h8.012c1.258-.015 2.179.03 2.932-.385.376-.207.675-.56.84-.998.164-.438.222-.96.222-1.617V6c0-.658-.058-1.179-.223-1.617-.02-.055-.048-.104-.074-.154l-.027-.057a1.838 1.838 0 0 0-.738-.787c-.753-.416-1.674-.37-2.932-.385H8.967L6.945 1H3.996zm.012 1h2.53l1.765 1.746L7.033 5H3.994c-1.258.015-2.179-.03-2.932.385-.022.012-.04.03-.062.043V4c0-.592.062-1.006.16-1.266s.203-.371.387-.472c.366-.203 1.195-.247 2.459-.262zm5.459 2h2.527c1.264.015 2.092.06 2.46.262.183.1.288.212.386.472.098.26.162.674.162 1.266v6c0 .592-.063 1.006-.16 1.266-.098.26-.203.371-.387.472-.366.202-1.193.247-2.453.262H4c-1.26-.015-2.087-.06-2.453-.262-.184-.1-.29-.212-.387-.472C1.063 13.006 1 12.592 1 12V8c0-.592.064-1.006.162-1.266s.203-.371.387-.472c.367-.203 1.195-.247 2.459-.262h3.435z" font-family="sans-serif" font-weight="400" overflow="visible" style="line-height:normal;font-variant-ligatures:none;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;shape-padding:0;isolation:auto;mix-blend-mode:normal;marker:none" white-space="normal" ></path> </g></svg>
+                    <span>Resources</span>
+                </a>
+            </nav>
+        </div>
+
+        <nav data-dev-hint="second-main-navigation or footer navigation">
+            <a href="/profile" class="block py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white"> 
+                Profile 
+            </a>
+            <a href="/settings" class="block py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white">
+                Settings 
+            </a>
+            <a href="#" class="block py-2 px-4 transition duration-200 hover:bg-gray-700 hover:text-white">
+                Logout 
+            </a>
+        </nav>
+    </aside>
 {% block sub_content %}
 {% endblock %}
 
