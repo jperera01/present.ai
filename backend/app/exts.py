@@ -14,6 +14,8 @@ p_sessions schema:
     user_id: uuid
     presentation_id: uuid
     name: string
+    confidences: array,
+    wpm: array, 
     description: string
     length: number
     timestamp: datetime

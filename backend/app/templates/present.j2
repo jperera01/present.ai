@@ -64,10 +64,25 @@
         setInterval(() => {
           this.currentMinutes -= (1 / 60)
         }, 1e3);
-        },
+      },
+
+      getCookie(name) {
+        let cookieArray = document.cookie.split(';');
+        for (let cookie of cookieArray) {
+          cookie = cookie.trim();
+          if (cookie.startsWith(name + '=')) {
+            return cookie.substring((name + '=').length);
+          }
+        }
+        return null;
+      },
 
         submitEnd() {
-          console.log('this is the end')
+          present_id = this.getCookie('present_id');
+          const currentURL = window.location.href;
+
+          const newURL = currentURL.replace(/\/present/g, `/api/summary/${present_id}?t=${this.currentMinutes}`);
+          window.location.href = newURL;
         }
     }"
     x-init="initialize()"
@@ -96,7 +111,7 @@
     </div>
   </div>
 
-  <button class="absolute bg-red-500 text-white font-bold px-3 py-1 rounded top-5 left-5 z-10">exit</button>
+  <button class="absolute bg-red-500 text-white font-bold px-3 py-1 rounded top-5 left-5 z-10" @click="submitEnd">End</button>
   <div class="bg-black flex justify-center">
     <div class="relative">
       <video id="video" class="h-lvh">

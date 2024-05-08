@@ -6,8 +6,8 @@
 
 {% for line in recent %}
 <li>
-  <p>{{ line.title }}</p>
-  <p>{{ line.length }} minutes</p>
+  <p>{{ line.name }}</p>
+  <p>{{ line.length.minutes }} minutes, {{ line.length.seconds }} seconds</p>
 </li>
 {% endfor %}
 

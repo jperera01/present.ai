@@ -10,6 +10,8 @@
   integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
   crossorigin="anonymous"
 ></script>
+{% block other_script %}
+{% endblock %}
 {% endblock %}
 
 {% block content %}
@@ -19,13 +21,13 @@
     <ul>
       <li><a href="/dashboard/home">home</a></li>
       <li><a href="/dashboard/present">present</a></li>
-      <li><a href="/dashboard/sessions">sessions</a></li>
+      <li><a href="/dashboard/presentations">presentations</a></li>
       <li><a href="/dashboard/resources">resources</a></li>
     </ul>
   </nav>
   <div>
     <img src="/static/images/user.png" width='50px'/>
-    <p>name goes here</p>
+    <p>{{ name }}</p>
   </div>
 </header>
 {% block sub_content %}

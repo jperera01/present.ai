@@ -2,11 +2,12 @@ import re
 from app.ai.model import client
 from nltk.sentiment import SentimentIntensityAnalyzer
 import nltk
+import time
 
 sia = SentimentIntensityAnalyzer()
 
 def create_analysis(description1, description2, confidence_change, confidence_current):
-    is_unconfident = confidence_change < -20 or confidence_current < 50
+    is_unconfident = confidence_change < -20 or confidence_current < 70
 
     return {
         'description1': description1,
@@ -24,6 +25,7 @@ def parse_message(message):
     return description1, description2
 
 def get_sentiment(base64Image1, base64Image2):
+    # start_time = time.time()
     completion = client.chat.completions.create(
         model="gpt-4-turbo",
         messages=[
@@ -56,6 +58,12 @@ def get_sentiment(base64Image1, base64Image2):
         ]
     )
 
+    # end_time = time.time()
+
+    # execution_time = end_time - start_time
+    # print(f"Execution time: {execution_time:.5f} seconds")
+
+    # start_time = time.time()
     response_text = completion.choices[0].message.content
     description1, description2 = parse_message(response_text)
     confidence_score1 = (sia.polarity_scores(description1)['compound'] + 1) * 50
@@ -63,5 +71,9 @@ def get_sentiment(base64Image1, base64Image2):
     confidence_difference = confidence_score2 - confidence_score1
     confidence_change = round((confidence_difference / confidence_score1) * 100, 2)
     current_confidence = round(confidence_score2, 2)
+    # end_time = time.time()
+
+    # execution_time = end_time - start_time
+    # print(f"Execution time 2: {execution_time:.5f} seconds")
 
     return create_analysis(description1, description2, confidence_change, current_confidence)

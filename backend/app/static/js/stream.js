@@ -47,7 +47,13 @@
       reader.onload = function () {
         const base64data = reader.result.split(",")[1];
 
-        // ws.send(JSON.stringify({ type: "audio", data: base64data }));
+        ws.send(
+          JSON.stringify({
+            type: "audio",
+            data: base64data,
+            presentation: getCookie("present_id"),
+          })
+        );
       };
 
       reader.onerror = function (error) {
@@ -82,15 +88,32 @@
     video.play();
   }
 
+  function getCookie(name) {
+    let cookieArray = document.cookie.split(";");
+    for (let cookie of cookieArray) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name + "=")) {
+        return cookie.substring((name + "=").length);
+      }
+    }
+    return null;
+  }
+
   function startStream() {
     setInterval(() => {
       if (streaming) {
         context.drawImage(video, 0, 0, width, height);
         const frame = canvas.toDataURL("image/jpeg");
 
-        sendFrameToBackend(JSON.stringify({ type: "video", data: frame }));
+        sendFrameToBackend(
+          JSON.stringify({
+            type: "video",
+            data: frame,
+            presentation: getCookie("present_id"),
+          })
+        );
       }
-    }, 1e3);
+    }, 5.5 * 1e3);
   }
 
   async function startStreamHandleException() {
@@ -167,7 +190,6 @@
   }
 
   async function sendFrameToBackend(frame) {
-    // console.log(frame);
     ws.send(frame);
   }
 

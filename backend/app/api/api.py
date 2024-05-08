@@ -9,6 +9,16 @@ import datetime
 
 api_ns = Namespace('api', description='namespace for general apis')
 
+def minutes_to_readable(length):
+    try:
+        time_float = float(length)
+    except (ValueError, TypeError):
+        return {"minutes": 0, "seconds": 0}
+
+    minutes = int(time_float)
+    seconds = (time_float - minutes) * 60
+    return {"minutes": minutes, "seconds": int(seconds)}
+
 
 @api_ns.route('/dashboard/home/total_presentations')
 class TotalPresentations(Resource):
@@ -44,10 +54,12 @@ class RecentPresentations(Resource):
         query = p_sessions.find({"user_id": db_user.id}).sort(
             'timestamp', pymongo.DESCENDING).limit(3)
 
-        print(query)
-
+        result = [
+            {**obj, 'length': minutes_to_readable(obj['length'])}
+            for obj in list(query)
+        ]
         resp = make_response(render_template(
-            "dashboard/partials/recent.j2", recent=list(query)))
+            "dashboard/partials/recent.j2", recent=result))
 
         resp.headers['content-type'] = 'text/html'
 
@@ -72,7 +84,9 @@ class CreatePresentation(Resource):
             "presentation_id": presentation_id,
             "name": request.form['present_name'],
             "description": request.form['present_description'],
-            "length": request.form['present_length'],
+            "length": float(request.form['present_length']),
+            "confidences": [],
+            "wpm": [],
             "timestamp": datetime.datetime.now()
         })
 
@@ -96,3 +110,42 @@ class InitPresetn(Resource):
         return {
             'length': presentation['length']
         }
+
+@api_ns.route('/summary/<string:present_id>')
+class Summary(Resource):
+    def get(self, present_id):
+        try:
+            length = float(request.args.get('t'))
+
+            document = p_sessions.find_one({"presentation_id": present_id})
+            new_length = document["length"] - length
+
+            p_sessions.update_one({ "presentation_id": present_id },
+                                {"$set": {"length": new_length }})
+        except Exception:
+            ...
+
+        presentation = p_sessions.find_one({ "presentation_id": present_id })
+        lst = presentation['confidences']
+        wpms = presentation['wpm']
+
+        data = {
+            "name": presentation['name'],
+            "description": presentation['description'],
+            "length": minutes_to_readable(float(presentation['length'])),
+            "avg_confidence": int(sum(lst) / len(lst) if lst else 0),
+            "confidence_values": lst,
+            "confidence_intervals": [f"{5 * (i+1)} seconds" for i in range(len(lst))],
+            'wpm': wpms,
+            'avg_wpm': int(sum(wpms) / len(wpms) if wpms else 0),
+            "wpm_intervals": [f"{5 * (i+1)} seconds" for i in range(len(wpms))],
+        }
+        print("presentation", presentation)
+        print("data", data)
+
+        resp = make_response(render_template("dashboard/summary.j2", presentation=data))
+        resp.headers['content-type'] = 'text/html'
+
+        return resp
+
+

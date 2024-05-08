@@ -1,0 +1,128 @@
+{% extends "dashboard.j2" %} 
+
+{% block other_script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block sub_content %}
+<main>
+  <h1>{{ presentation.name }}</h1>
+  {% if presentation.description %}
+  <p>{{ presentation.description }}</p>
+  {% endif %}
+  <div>
+    <div>
+      <h2>{{ presentation.length.minutes }}</h2>
+      <h3>minutes</h3>
+    </div>
+    <div>
+      <h2>{{ presentation.avg_confidence }}</h2>
+      <h3>avg. confidence</h3>
+    </div>
+  </div>
+
+  <div class="container mx-auto p-4">
+    <h2 class="text-xl font-bold mb-4">Confidence scores</h2>
+    <div x-data="chartData" class="bg-white p-4 rounded-lg shadow-lg">
+      <canvas x-ref="canvas1" class="w-full h-64"></canvas>
+    </div>
+  </div>
+
+
+  <div class="container mx-auto p-4">
+    <h2 class="text-xl font-bold mb-4">WPM (Words Per Minute)</h2>
+    <div x-data="chartData" class="bg-white p-4 rounded-lg shadow-lg">
+      <canvas x-ref="canvas2" class="w-full h-64"></canvas>
+    </div>
+  </div>
+</main>
+
+<script>
+  function chartData() {
+    return {
+      confidence_labels: {{ presentation.confidence_intervals }},
+      confidence_values: {{ presentation.confidence_values }},
+      wpm_labels: {{ presentation.wpm_intervals }},
+      wpm_values: {{ presentation.wpm }},
+      renderConfidenceChart() {
+        new Chart(this.$refs.canvas1, {
+          type: 'line',
+          data: {
+            labels: this.confidence_labels,
+            datasets: [{
+              label: 'Confidence over time',
+              data: this.confidence_values,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 2,
+              pointBackgroundColor: 'rgba(255, 159, 64, 1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(255, 159, 64, 1)',
+              fill: true
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            },
+            elements: {
+              line: {
+                tension: 0.4
+              },
+              point: {
+                radius: 4,
+                hitRadius: 10,
+                hoverRadius: 6
+              }
+            }
+          }
+        });
+      },
+      renderWpmChart() {
+        new Chart(this.$refs.canvas2, {
+          type: 'line',
+          data: {
+            labels: this.wpm_labels,
+            datasets: [{
+              label: 'WPM over time',
+              data: this.wpm_values,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 2,
+              pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(255, 99, 132, 1)',
+              fill: true
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            },
+            elements: {
+              line: {
+                tension: 0.4
+              },
+              point: {
+                radius: 4,
+                hitRadius: 10,
+                hoverRadius: 6
+              }
+            }
+          }
+        });
+      },
+      init() {
+        this.renderConfidenceChart();
+        this.renderWpmChart();
+      }
+    };
+  }
+</script>
+{% endblock %}

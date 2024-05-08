@@ -5,7 +5,7 @@ import base64
 import io
 import json
 from flask_restx import Api
-from app.exts import db
+from app.exts import db, p_sessions
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 import speech_recognition as sr
@@ -23,7 +23,7 @@ from app.ai.image import get_sentiment
 
 
 r = sr.Recognizer()
-image_store = []
+image_store = {}
 
 
 def convert_ogg_to_wav(ogg_data):
@@ -34,7 +34,7 @@ def convert_ogg_to_wav(ogg_data):
     return wav_io
 
 
-def process_audio(data, ws):
+def process_audio(data, ws, message):
     try:
         wav_audio = convert_ogg_to_wav(data)
 
@@ -43,13 +43,28 @@ def process_audio(data, ws):
 
             try:
                 text = r.recognize_google(audio)
-                if text:
-                    data = {
-                        'type': 'audio_trans',
-                        'audio_trans': text
-                    }
-                    ws.send(json.dumps(data))
+                wpm = len(str(text).split(' ')) / (5 / 60)
+
+                data = {
+                    'type': 'audio_trans',
+                    'audio_trans': text,
+                    'wpm': wpm
+                }
+
+                print(data)
+
+                p_sessions.update_one({ "presentation_id": message['presentation'] }, {"$push": {"wpm": wpm }})
+                ws.send(json.dumps(data))
             except Exception as e:
+                p_sessions.update_one({ "presentation_id": message['presentation'] }, {"$push": {"wpm": 0 }})
+
+                data = {
+                    'type': 'audio_trans',
+                    'audio_trans': '',
+                    'wpm': 0
+                }
+
+                ws.send(json.dumps(data))
                 print(e)
     except Exception as e:
         print(e)
@@ -82,20 +97,23 @@ def create_app():
             if message['type'] == "audio":
                 binary_data = base64.b64decode(message['data'])
                 threading.Thread(target=process_audio,
-                                args=(binary_data, ws)).start()
+                                args=(binary_data, ws, message)).start()
 
             elif message['type'] == "video":
-                image_store.append(message['data'])
-                if len(image_store) == 2:
-                    analysis = get_sentiment(image_store[0], image_store[1])
+                if message['presentation'] not in image_store:
+                    image_store[message['presentation']] = []
+                image_store[message['presentation']].append(message['data'])
+                if len(image_store[message['presentation']]) == 2:
+                    analysis = get_sentiment(image_store[message['presentation']][0], image_store[message['presentation']][1])
                     print(analysis)
 
                     data = {
                         'type': 'confidence',
                         'confidence': analysis
                     }
+                    p_sessions.update_one({ "presentation_id": message['presentation'] }, {"$push": {"confidences": analysis['current_confidence']}})
                     ws.send(json.dumps(data))
-                    image_store.clear()
+                    image_store[message['presentation']].clear()
 
 
             # handle new receive
