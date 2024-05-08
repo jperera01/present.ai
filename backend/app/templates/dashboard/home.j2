@@ -5,98 +5,28 @@
 
 
 <main id="content" class="flex-1 p-6 bg-gray-100" style="padding-left: 12rem;">
-
-<div class="flex items-center justify-end">
-  <img class="w-8 h-8 rounded-full " src="https://static.vecteezy.com/system/resources/previews/000/422/799/original/avatar-icon-vector-illustration.jpg" alt="Profile picture">
-</div>
-
-
       <div class="max-w-7xl mx-auto">
         <h1 class="text-5xl text-gray-800 font-bold mb-9">Welcome, {{ name }} 👋</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-4">
-            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+
+            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200" hx-get="/api/dashboard/home/total_presentations" hx-trigger="load" hx-target="#total_presentations" hx-swap="innerHTML">
               <h2 class="text-xl font-semibold text-gray-700 mb-2">Total Presentations</h2>
-              <div class="text-5xl text-gray-800 font-bold" id="total_presentations">2</div>
-              <div class="text-gray-600 mt-2">As of today</div>
+              <div class="text-5xl text-gray-800 font-bold" id="total_presentations"></div>
             </div>
 
-            <!-- Card for Recent Presentations -->
-            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
+            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200" hx-get="/api/dashboard/home/average_presentations" hx-trigger="load" hx-target="#average_presentations" hx-swap="innerHTML">
               <h2 class="text-xl font-semibold text-gray-700 mb-2">Average Presentation Time</h2>
-                <div class="text-5xl text-gray-800 font-bold" id="total_presentations">2</div>
+                <div class="text-5xl text-gray-800 font-bold" id="average_presentations"></div>
                 <div class="text-2x1"> minutes</div>
-            </div>
-
-            <!-- Card for Presentation Insights -->
-            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-              <h2 class="text-xl font-semibold text-gray-700 mb-2">Insights</h2>
-              <div class="text-5xl text-gray-800 font-bold">75%</div>
-              <div class="text-gray-600 mt-2">Engagement Rate</div>
             </div>
          </div>
 
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
-            <!-- Card for Total Presentations -->
-            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-700 mb-2">Filler Word rate</h2>
-                <div class="text-5xl text-gray-800 font-bold" id="total_presentations">#%</div>
-                <div class="text-gray-600 mt-2">As of ....</div>
-            </div>
-
-            <!-- Card for Recent Presentations -->
-            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-700 mb-2">Average Eye Contact Rate</h2>
-                <div class="text-5xl text-gray-800 font-bold">75%</div>
-            </div>
-
-            <!-- Card for Presentation Insights -->
-            <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
-              <h2 class="text-xl font-semibold text-gray-700 mb-2">Pacing</h2>
-              <div class="text-5xl text-gray-800 font-bold">75%</div>
-              <div class="text-gray-600 text-3x1 mt-2">Pacing Rate</div>
-            </div>
-        </div>
-
-<div class=" p-3 rounded-lg ">
-  <h2 class="text-3xl font-semibold mb-4 p-3 rounded-lg">Recent Presentations</h2>
-
-
-   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-   <div class=" bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
-      <h2 class="text-xl font-bold mb-2">Presentation 1</h2>
-      <p class="text-md">Title: Details about Presentation</p>
-      <p class="text-md">Presented: 05/03/2024</p>
+   <div class=" p-3 rounded-lg" hx-get="/api/dashboard/home/recent_presentations" hx-trigger="load" hx-target="#recent_presentations" hx-swap="innerHTML">
+      <h2 class="text-3xl font-semibold mb-4 p-3 rounded-lg">Recent Presentations</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="recent_presentations">
+      </div>
    </div>
-   <div class="bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
-      <h2 class="text-xl font-bold mb-2">Presentation 2</h2>
-      <p class="text-md">Title: Details about Presentation</p>
-      <p class="text-md">Presented: 05/03/2024</p>
-   </div>
-   <div class="bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
-      <h2 class="text-xl font-bold mb-2">Presentation 3</h2>
-      <p class="text-md">Title: Details about Presentation</p>
-      <p class="text-md">Presented: 05/03/2024</p>
-   </div>
-   <div class="bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
-      <h2 class="text-xl font-bold mb-2">Presentation 4</h2>
-      <p class="text-md">Title: Details about Presentation</p>
-      <p class="text-md">Presented: 05/03/2024</p>
-   </div>
-   <div class="bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
-      <h2 class="text-xl font-bold mb-2">Presentation 5</h2>
-      <p class="text-md">Title: Details about Presentation</p>
-      <p class="text-md">Presented: 05/03/2024</p>
-   </div>
-   <div class="bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
-      <h2 class="text-xl font-bold mb-2">Presentation 6</h2>
-      <p class="text-md">Title: Details about Presentation</p>
-      <p class="text-md">Presented: 05/03/2024</p>
-   </div>
-</div>
-
-
-
-  </main>
+</main>
 
 
 

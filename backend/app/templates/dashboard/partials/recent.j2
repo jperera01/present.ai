@@ -5,10 +5,16 @@
 {% else %}
 
 {% for line in recent %}
-<li>
-  <p>{{ line.name }}</p>
-  <p>{{ line.length.minutes }} minutes, {{ line.length.seconds }} seconds</p>
-</li>
+
+<div class=" bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
+    <h2 class="text-xl font-bold mb-2">Presentation {{ line.number }}</h2>
+    <p class="text-md"><span class="font-bold">Title</span>: {{ line.name }}</p>
+    {% if line.description %}
+    <p class="text-md"><span class="font-bold">Description</span>: {{ line.description }}</p>
+    {% endif %}
+    <p class="text-md"><span class="font-bold">Presented</span>: {{ line.timestamp }}</p>
+    <p class="text-md"><span class="font-bold">Length</span>: {{ line.length.minutes }} minutes, {{ line.length.seconds }} seconds</p>
+</div>
 {% endfor %}
 
 {% endif %}

@@ -40,6 +40,40 @@ class TotalPresentations(Resource):
         return resp
 
 
+@api_ns.route('/dashboard/home/average_presentations')
+class AveragePresentationLength(Resource):
+    def get(self):
+        token = request.cookies.get('token')
+
+        token_decoded = decode_token(token)
+
+        email = token_decoded['sub']
+
+        db_user = User.query.filter_by(email=email).first()
+        if not db_user:
+            return "User not found", 404
+
+        query = p_sessions.find({"user_id": db_user.id})
+
+        total_length = 0
+        count = 0
+        for session in query:
+            if 'length' in session:
+                total_length += session['length']
+                count += 1
+        
+        if count == 0:
+            average_length = 0
+        else:
+            average_length = total_length / count
+
+        resp = make_response(f"{int(average_length)}")
+
+        resp.headers['content-type'] = 'text/html'
+
+        return resp
+
+
 @api_ns.route('/dashboard/home/recent_presentations')
 class RecentPresentations(Resource):
     def get(self):
@@ -55,9 +89,10 @@ class RecentPresentations(Resource):
             'timestamp', pymongo.DESCENDING).limit(3)
 
         result = [
-            {**obj, 'length': minutes_to_readable(obj['length'])}
-            for obj in list(query)
+            {**obj, 'length': minutes_to_readable(obj['length']), 'timestamp': obj['timestamp'].strftime('%m/%d/%Y'), 'number': i + 1}
+            for i, obj in enumerate(list(query))
         ]
+
         resp = make_response(render_template(
             "dashboard/partials/recent.j2", recent=result))
 
