@@ -5,27 +5,49 @@
 
 
 <main id="content" class="flex-1 p-6 bg-gray-100" style="padding-left: 12rem;">
-      <div class="max-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <h1 class="text-5xl text-gray-800 font-bold mb-9">Welcome, {{ name }} 👋</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-4">
-
             <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200" hx-get="/api/dashboard/home/total_presentations" hx-trigger="load" hx-target="#total_presentations" hx-swap="innerHTML">
-              <h2 class="text-xl font-semibold text-gray-700 mb-2">Total Presentations</h2>
-              <div class="text-5xl text-gray-800 font-bold" id="total_presentations"></div>
+                <h2 class="text-xl font-semibold text-gray-700 mb-2">Total Presentations</h2>
+                <div class="text-5xl text-gray-800 font-bold" id="total_presentations"></div>
             </div>
 
             <div class="bg-white shadow-lg rounded-lg p-6 border border-gray-200" hx-get="/api/dashboard/home/average_presentations" hx-trigger="load" hx-target="#average_presentations" hx-swap="innerHTML">
-              <h2 class="text-xl font-semibold text-gray-700 mb-2">Average Presentation Time</h2>
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">Average Presentation Time</h2>
                 <div class="text-5xl text-gray-800 font-bold" id="average_presentations"></div>
                 <div class="text-2x1"> minutes</div>
             </div>
-         </div>
+        </div>
 
-   <div class=" p-3 rounded-lg" hx-get="/api/dashboard/home/recent_presentations" hx-trigger="load" hx-target="#recent_presentations" hx-swap="innerHTML">
-      <h2 class="text-3xl font-semibold mb-4 p-3 rounded-lg">Recent Presentations</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="recent_presentations">
-      </div>
-   </div>
+<div class=" p-3 rounded-lg" hx-get="/api/dashboard/home/recent_presentations" hx-trigger="load" hx-target="#recent_presentations" hx-swap="innerHTML">
+    <h2 class="text-3xl font-semibold mb-4 p-3 rounded-lg">Recent Presentations</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="recent_presentations"></div>
+</div>
+
+<div class="bg-gradient-to-b from-sky-500 to-indigo-400 rounded-lg p-5 shadow-md mb-9">
+    <h2 class="text-2xl font-bold mb-4 text-white">Tips: </h2>
+    <div x-data="{
+        tips: [ 'Stay confident! We assess your confidence throughout your presentation.', 
+                'Engage with your audience by posing questions.', 
+                'Use visual aids to illustrate your points and make them interesting.',
+                'Use humor appropriately to lighten the mood and keep your audience engaged.',
+                'Rehearse transitions between topics for a smooth flow of your presentation.',
+                'Stay hydrated! Use that water break to take a quick breather.',
+                'Nothing bores an audience more than reading from slides. Keep them short.' 
+            ],
+        currentIndex: 0,
+        rotateTips() {
+            setInterval(() => {
+                this.currentIndex = (this.currentIndex + 1) % this.tips.length;
+            }, 5000); 
+        }
+    }" x-init="rotateTips()">
+        <span x-text="tips[currentIndex]" class="text-white"></span>
+    </div>
+</div>
+</div>
+
 </main>
 
 

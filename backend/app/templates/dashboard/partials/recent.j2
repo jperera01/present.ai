@@ -7,7 +7,7 @@
 {% for line in recent %}
 
 <a href="/api/summary/{{ line.presentation_id }}">
-  <div class=" bg-blue-500 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
+  <div class=" bg-gradient-to-b from-sky-500 to-indigo-400 text-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
       <h2 class="text-xl font-bold mb-2">Presentation {{ line.number }}</h2>
       <p class="text-md"><span class="font-bold">Title</span>: {{ line.name }}</p>
       {% if line.description %}
