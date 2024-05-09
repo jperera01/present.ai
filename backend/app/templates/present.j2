@@ -92,7 +92,7 @@
   >
 
   <div id="overModal" class="modal hidden fixed inset-0 bg-black bg-opacity-40 z-10 overflow-auto flex items-center justify-center">
-    <div class="modal-content bg-white m-auto p-5 border border-gray-300 w-4/5 md:w-3/5 lg:w-2/5">
+    <div class="modal-content bg-white m-auto p-5 border border-gray-300 w-4/5 md:w-3/5 lg:w-2/5 animate-slide-down">
       <p>The presentation time is over. Do you want to end the presentation?</p>
       <div class="flex justify-center gap-4">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="handleContinue">
@@ -106,8 +106,8 @@
   </div>
 
   <div id="unconfidentModal" class="modal hidden fixed inset-0 bg-black bg-opacity-40 z-10 overflow-auto flex items-center justify-center">
-    <div class="modal-content bg-white m-auto p-5 border border-gray-300 w-4/5 md:w-3/5 lg:w-2/5">
-      <p>You're looking unconfident!</p>
+    <div class="modal-content bg-red-400 m-auto p-5 border border-yellow-600 w-4/5 md:w-3/5 lg:w-2/5 animate-slide-down">
+      <p class="font-bold text-lg">Your posture suggests you're not feeling confident.</p>
     </div>
   </div>
 

@@ -183,4 +183,10 @@ class Summary(Resource):
 
         return resp
 
+@api_ns.route('/logout')
+class Logout(Resource):
+    def get(self):
+        resp = redirect('/')
+        resp.delete_cookie('token')
 
+        return resp
