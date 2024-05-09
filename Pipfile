@@ -21,6 +21,7 @@ pycouchdb = "*"
 pymongo = "*"
 openai = "*"
 nltk = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
