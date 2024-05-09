@@ -61,12 +61,13 @@ def presentations():
 
         db_user = User.query.filter_by(email=email).first()
 
-        query = p_sessions.find({"user_id": db_user.id})
+        query = list(p_sessions.find({"user_id": db_user.id}))
 
+        length = len(query)
 
         result = [
-            {**obj, 'length': minutes_to_readable(obj['length'])}
-            for obj in list(query)
+            {**obj, 'length': minutes_to_readable(obj['length']), 'timestamp': obj['timestamp'].strftime('%m/%d/%Y'), 'number': length - i}
+            for i, obj in enumerate(list(query))
         ]
 
         if db_user is None:
